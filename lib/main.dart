@@ -1,6 +1,7 @@
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:fps_jank_flash_widget/fps_jank_flash_widget.dart';
 import 'package:wonders/common_libs.dart';
 import 'package:wonders/logic/collectibles_logic.dart';
 import 'package:wonders/logic/locale_logic.dart';
@@ -18,7 +19,11 @@ void main() async {
 
   // Start app
   registerSingletons();
-  runApp(WondersApp());
+
+  const frameBudget = Duration(milliseconds: 17); // 60 fps
+  FPSJankFlash.frameBudget = frameBudget;
+
+  runApp(FPSJankFlash.overlay(child: WondersApp()));
   await appLogic.bootstrap();
 
   // Remove splash screen when bootstrap is complete
